@@ -6,15 +6,378 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>653</width>
-    <height>442</height>
+    <width>762</width>
+    <height>585</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Dialog</string>
+  <property name="minimumSize">
+   <size>
+    <width>756</width>
+    <height>557</height>
+   </size>
   </property>
+  <property name="windowTitle">
+   <string>Κοινόχρηστα</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>spiti1.JPG</normaloff>spiti1.JPG</iconset>
+  </property>
+  <property name="locale">
+   <locale language="Greek" country="Greece"/>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>9</y>
+     <width>731</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <item row="1" column="1">
+     <spacer name="verticalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="0" colspan="3">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QPushButton" name="btn_exit">
+      <property name="text">
+       <string>Έξοδος</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="btn_backup">
+      <property name="text">
+       <string>Backup Βάσης</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="btn_manage">
+      <property name="text">
+       <string>Διαχείριση Χρηστών</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QToolBox" name="toolBox">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="databaseTool">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>729</width>
+         <height>156</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <attribute name="label">
+        <string>Σύνδεση με Βάση Δεδομένων</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>681</width>
+          <height>141</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Database hostname</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="dbHostEdit"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Βάση Δεδομένων</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="dbNameEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Όνομα χρήστη (βάσης)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="dbUsernameEdit"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Κωδικός χρήστη</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="dbPasswordEdit">
+           <property name="inputMethodHints">
+            <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText</set>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QPushButton" name="btn_dbConnect">
+           <property name="text">
+            <string>Σύνδεση</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QPushButton" name="btn_dbSaveSettings">
+           <property name="text">
+            <string>Αποθήκευση Ρυθμίσεων</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="userTool">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>729</width>
+         <height>156</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>Σύνδεση Χρήστη</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>10</y>
+          <width>621</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Όνομα χρήστη</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="koinoNameEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Κωδικός</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="koinoPassEdit"/>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="btn_koinoConnect">
+           <property name="text">
+            <string>Σύνδεση</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="btn_koinoSaveSettings">
+           <property name="text">
+            <string>Αποθήκευση</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>729</width>
+         <height>156</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>Page</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+   <zorder>btn_manage</zorder>
+   <zorder>toolBox</zorder>
+   <zorder>btn_backup</zorder>
+   <zorder>label</zorder>
+   <zorder>btn_exit</zorder>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btn_exit</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>738</x>
+     <y>545</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>688</x>
+     <y>493</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_dbConnect</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>dbConnect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>467</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>758</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_dbSaveSettings</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>dbSaveSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>624</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>758</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_koinoConnect</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>koinoConnect()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>519</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>754</x>
+     <y>156</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_koinoSaveSettings</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>koinoSaveSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>645</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>747</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolBox</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>Dialog</receiver>
+   <slot>toolboxSelChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>118</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>115</x>
+     <y>1</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>dbConnect()</slot>
+  <slot>dbSaveSettings()</slot>
+  <slot>koinoConnect()</slot>
+  <slot>koinoSaveSettings()</slot>
+  <slot>toolboxSelChanged(int)</slot>
+ </slots>
 </ui>

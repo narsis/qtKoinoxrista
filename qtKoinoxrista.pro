@@ -4,15 +4,19 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 TARGET = qtKoinoxrista
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        dialog.cpp
+        dialog.cpp \
+    base64.cpp
 
-HEADERS  += dialog.h
+HEADERS  += dialog.h \
+    base64.h
 
 FORMS    += dialog.ui
+
+OTHER_FILES +=

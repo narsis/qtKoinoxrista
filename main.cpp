@@ -6,36 +6,104 @@
 #include <QSettings>
 #include <QDir>
 #include "dialog.h"
+#include "base64.h"
+#include <QtSql/QSqlDatabase>
 
 class I : public QThread
 {
 public:
-        static void sleep(unsigned long secs, QSplashScreen* splash, QDialog* dlg, QSettings* settings) {
+        static void sleep(unsigned long secs, QSplashScreen* splash, Dialog* dlg, QSettings* settings) {
             splash->showMessage(QObject::tr("Έλεγχος ρυθμίσεων..."), Qt::AlignLeft|Qt::AlignBottom, Qt::red);
 
-            settings->allKeys().isEmpty()
+            dlg->setSettingsFile(settings);  //Περνάμε το αρχείο ρυθμίσεων στην κλάση του παραθύρου μας
+            /*Διαβάζουμε όλες τις ρυθμίσεις από το αρχείο ρυθμίσεων
+              και τις μεταφέρουμε σε μεταβλητές για χρήση από την εφαρμογή*/
+            QVariant windowX = settings->value("ApplicationWindow/WindowX");
+            QVariant windowY = settings->value("ApplicationWindow/WindowY");
+            int winX=windowX.toInt();
+            int winY=windowY.toInt();
 
-            //Εάν δεν υπάρχει το αρχείο ή αν υπάρχει κάποιο λάθος ξαναφτιάχνουμε το αρχείο ρυθμίσεων
-            if (settings->status() != QSettings::NoError) {
-                splash->showMessage(QObject::tr("Λάθος στις ρυθμίσεις... Αρχικοποίηση αρχείου ρυθμίσεων"), Qt::AlignLeft|Qt::AlignBottom, Qt::red);
-                settings->beginGroup("General");
-                settings->setValue("maximized", "0");
-                settings->setValue("window_size", "test");
-                settings->setValue("window_position", "0,0");
-                settings->endGroup();
-                settings->beginGroup("Database");
-                settings->setValue("dbAddress", "127.0.0.1");
-                settings->setValue("dbUser", "root");
-                settings->setValue("dbName", "koinoxrista");
-                settings->endGroup();
-            }
+            dlg->move(winX, winY);
+            QVariant winSizeX = settings->value("ApplicationWindow/WinSizeX");
+            QVariant winSizeY = settings->value("ApplicationWindow/WinSizeY");
+
+            dlg->resize(winSizeX.toInt(), winSizeY.toInt());
+            QVariant maximized = settings->value("ApplicationWindow/WindowMaximized");
+            if (maximized.toBool()==1)
+                dlg->setWindowState(Qt::WindowMaximized);
+
 
             QThread::sleep(secs);
             splash->showMessage(QObject::tr("Σύνδεση με βάση δεδομένων..."), Qt::AlignLeft|Qt::AlignBottom, Qt::red);
+            /*Διαβάζουμε τις ρυθμίσεις για τη σύνδεση με τη βάση*/
+            QVariant dbAddress = settings->value("Database/database_host");
+            dlg->setDatabase(dbAddress.toString());
+
+            QVariant dbUser = settings->value("Database/database_username");
+            dlg->setDatabaseUser(dbUser.toString());
+
+            QVariant dbPass = settings->value("Database/database_user_password");
+            QString tmpPass = "";
+            if (!dbPass.toString().isEmpty()) {
+                std::string s = base64_decode(dbPass.toString().toStdString());
+                dlg->setDatabasePass(s);
+                tmpPass = s.c_str();
+            }
+
+            QVariant dbName = settings->value("Database/database_to_use");
+            dlg->setDatabaseName(dbName.toString());
+
+
+            QSqlDatabase* db = new QSqlDatabase();
+            db->addDatabase("QMYSQL");
+            db->setHostName(dbAddress.toString());
+            db->setDatabaseName(dbName.toString());
+            db->setUserName(dbUser.toString());
+            db->setPassword(tmpPass);
+            if (!db->open())
+                dlg->setConnected(false);
+            else
+                dlg->setConnected(true);
+
             QThread::sleep(secs);
 
         }
 };
+
+void createDefaultSettingsFile(QSettings* settingsToInitialize) {
+    settingsToInitialize->beginGroup("ApplicationWindow");
+    settingsToInitialize->setValue("WindowX","10");
+    settingsToInitialize->setValue("WindowY", "10");
+    settingsToInitialize->setValue("WinSizeX","653");
+    settingsToInitialize->setValue("WinSizeY", "442");
+    settingsToInitialize->setValue("WindowMaximized", "1");
+    settingsToInitialize->endGroup();
+    settingsToInitialize->beginGroup("Database");
+    settingsToInitialize->setValue("database_host","127.0.0.1");
+    settingsToInitialize->setValue("database_username", "koinoxrista");
+    settingsToInitialize->setValue("database_user_password", "");
+    settingsToInitialize->setValue("database_to_use","koinoxrista");
+    settingsToInitialize->endGroup();
+}
+
+QSettings* initializeSettings(QApplication* app) {
+
+    QString iniFilename = app->applicationDirPath() + QDir::separator() + "koinoxrista.ini";
+
+    if (!QFile::exists(iniFilename)) {
+        QFile iniFile(iniFilename);
+        iniFile.open(QIODevice::WriteOnly);
+        iniFile.close();
+    }
+
+    QSettings* settingTemp = new QSettings(iniFilename, QSettings::IniFormat);
+    qDebug() << settingTemp->fileName();
+    if (settingTemp->allKeys().isEmpty()) {
+        createDefaultSettingsFile(settingTemp);
+    }
+    settingTemp->setFallbacksEnabled(false);
+    return settingTemp;
+}
 
 int main(int argc, char *argv[])
 {
@@ -45,9 +113,8 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForTr(utfCodec); // setting the utf-8 codec for the tr() tags
 
     //Δομή για να κρατάει τις ρυθμίσεις της εφαρμογής
-    QSettings* settings = new QSettings(a.applicationDirPath() + QDir::separator() +"koinoxrista.ini", QSettings::IniFormat);
-    qDebug() << settings->fileName();
-    settings->setFallbacksEnabled(false);
+    QSettings* settings = initializeSettings(&a);
+
 
     //Open splash screen window
     QPixmap pixmap("splash.png");
