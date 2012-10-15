@@ -8,6 +8,7 @@
 #include "dialog.h"
 #include "base64.h"
 #include <QtSql/QSqlDatabase>
+#include <QSqlError>
 
 class I : public QThread
 {
@@ -32,6 +33,15 @@ public:
             if (maximized.toBool()==1)
                 dlg->setWindowState(Qt::WindowMaximized);
 
+            QVariant koinoUser = settings->value("AutomaticUserLogin/username");
+            dlg->setkoinoUser(koinoUser.toString());
+            QVariant koinoPass = settings->value("AutomaticUserLogin/password");
+
+            if (!koinoPass.toString().isEmpty()) {
+                std::string s = base64_decode(koinoPass.toString().toStdString());
+                dlg->setKoinoPassword(s.c_str());
+            }
+
 
             QThread::sleep(secs);
             splash->showMessage(QObject::tr("Σύνδεση με βάση δεδομένων..."), Qt::AlignLeft|Qt::AlignBottom, Qt::red);
@@ -54,17 +64,16 @@ public:
             dlg->setDatabaseName(dbName.toString());
 
 
-            QSqlDatabase* db = new QSqlDatabase();
-            db->addDatabase("QMYSQL");
-            db->setHostName(dbAddress.toString());
-            db->setDatabaseName(dbName.toString());
-            db->setUserName(dbUser.toString());
-            db->setPassword(tmpPass);
-            if (!db->open())
+            QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+            db.setHostName(dbAddress.toString());
+            db.setDatabaseName(dbName.toString());
+            db.setUserName(dbUser.toString());
+            db.setPassword(tmpPass);
+            if (!db.open())
                 dlg->setConnected(false);
             else
                 dlg->setConnected(true);
-
+            db.close();
             QThread::sleep(secs);
 
         }
@@ -97,7 +106,6 @@ QSettings* initializeSettings(QApplication* app) {
     }
 
     QSettings* settingTemp = new QSettings(iniFilename, QSettings::IniFormat);
-    qDebug() << settingTemp->fileName();
     if (settingTemp->allKeys().isEmpty()) {
         createDefaultSettingsFile(settingTemp);
     }

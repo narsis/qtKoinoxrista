@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>762</width>
-    <height>585</height>
+    <width>756</width>
+    <height>584</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -53,7 +53,7 @@
      </spacer>
     </item>
     <item row="3" column="0" colspan="3">
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="labelStatus">
       <property name="text">
        <string/>
       </property>
@@ -93,7 +93,7 @@
       </property>
      </spacer>
     </item>
-    <item row="0" column="0" colspan="4">
+    <item row="0" column="0" rowspan="2" colspan="4">
      <widget class="QToolBox" name="toolBox">
       <property name="currentIndex">
        <number>0</number>
@@ -104,7 +104,7 @@
          <x>0</x>
          <y>0</y>
          <width>729</width>
-         <height>156</height>
+         <height>379</height>
         </rect>
        </property>
        <property name="font">
@@ -188,6 +188,17 @@
            </property>
           </widget>
          </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Αρχική Βάση!!!!</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>icons/application-delete.ico</normaloff>icons/application-delete.ico</iconset>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </widget>
@@ -196,8 +207,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>729</width>
-         <height>156</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -231,7 +242,11 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="koinoPassEdit"/>
+          <widget class="QLineEdit" name="koinoPassEdit">
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
          </item>
          <item row="1" column="2">
           <widget class="QPushButton" name="btn_koinoConnect">
@@ -255,13 +270,86 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>729</width>
-         <height>156</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
         <string>Page</string>
        </attribute>
+      </widget>
+      <widget class="QWidget" name="manageUserTool">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>729</width>
+         <height>379</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>Διαχείριση Χρηστών</string>
+       </attribute>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>0</y>
+          <width>711</width>
+          <height>371</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="0" colspan="5">
+          <widget class="QTableView" name="tableViewUsers">
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QPushButton" name="btn_newUSer">
+           <property name="text">
+            <string>Νεός χρήστης</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="btn_deleteUser">
+           <property name="text">
+            <string>Διαγραφή</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="btn_SaveUserTable">
+           <property name="text">
+            <string>Αποθήκευση</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QPushButton" name="btn_CancelUserTable">
+           <property name="text">
+            <string>Ακύρωση</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -269,7 +357,7 @@
    <zorder>btn_manage</zorder>
    <zorder>toolBox</zorder>
    <zorder>btn_backup</zorder>
-   <zorder>label</zorder>
+   <zorder>labelStatus</zorder>
    <zorder>btn_exit</zorder>
   </widget>
  </widget>
@@ -331,8 +419,8 @@
    <slot>koinoConnect()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>519</x>
-     <y>173</y>
+     <x>160</x>
+     <y>50</y>
     </hint>
     <hint type="destinationlabel">
      <x>754</x>
@@ -347,8 +435,8 @@
    <slot>koinoSaveSettings()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>645</x>
-     <y>179</y>
+     <x>160</x>
+     <y>50</y>
     </hint>
     <hint type="destinationlabel">
      <x>747</x>
@@ -372,6 +460,102 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>dbInitialize()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>590</x>
+     <y>115</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>752</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_manage</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>manageUsers()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>449</x>
+     <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>578</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_SaveUserTable</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>saveUserTable()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>638</x>
+     <y>503</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>112</x>
+     <y>570</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_CancelUserTable</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>cancelUserTable()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>729</x>
+     <y>503</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>303</x>
+     <y>577</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_newUSer</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>newUser()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>103</x>
+     <y>491</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>577</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_deleteUser</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>deleteUser()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>494</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>513</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>dbConnect()</slot>
@@ -379,5 +563,11 @@
   <slot>koinoConnect()</slot>
   <slot>koinoSaveSettings()</slot>
   <slot>toolboxSelChanged(int)</slot>
+  <slot>dbInitialize()</slot>
+  <slot>manageUsers()</slot>
+  <slot>saveUserTable()</slot>
+  <slot>cancelUserTable()</slot>
+  <slot>newUser()</slot>
+  <slot>deleteUser()</slot>
  </slots>
 </ui>

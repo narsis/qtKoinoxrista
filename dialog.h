@@ -1,11 +1,17 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
+#include <QApplication>
 #include <QDialog>
+#include <QChar>
 #include <QString>
+#include <QStringList>
 #include <QSize>
 #include <QPoint>
 #include <QSettings>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlTableModel>
 
 namespace Ui {
 class Dialog;
@@ -29,6 +35,8 @@ public:
     void setDatabasePass (std::string dbPass) {m_dbPass = dbPass.c_str();}
     void setConnected (bool connected) {m_connected = connected;}
     void setUserID (QString userID) {m_userID = userID;}
+    void setkoinoUser (QString koinoUser) {m_koinoUser = koinoUser;}
+    void setKoinoPassword (QString koinoPass) {m_koinoPassword = koinoPass;}
 
     void setDialogMaximised(bool isDlgMaximized) {m_isMaximized = isDlgMaximized;}
     void setDialogSize (QSize size, QPoint pos) {m_dlgSize = size; m_dlgPos = pos;}
@@ -50,15 +58,28 @@ private:
     QString m_dbPass;
     QString m_dbName;
     bool m_connected;
+
+    QSqlTableModel* dbTableModel;
+
     QString m_userID;
+    bool m_userIsAdmin;
+
+    QString m_koinoUser;
+    QString m_koinoPassword;
+
+    QSqlDatabase dbHandle;
 
     bool m_isMaximized;
+
+
     QSize m_dlgSize;
     QPoint m_dlgPos;
     QSettings* mp_Settings;
 
     /*Private μέθοδοι για χρήση εντός της κλάσης*/
     void state_not_connected();
+    void state_not_logged_in();
+    void state_logged_in();
 
 
     /*Διάφορα slots για να καθορίσουμε συμπεριφορα*/
@@ -68,6 +89,12 @@ private slots:
     void koinoConnect();
     void koinoSaveSettings();
     void toolboxSelChanged(int);
+    void dbInitialize();
+    void manageUsers();
+    void cancelUserTable();
+    void saveUserTable();
+    void newUser();
+    void deleteUser();
 };
 
 #endif // DIALOG_H

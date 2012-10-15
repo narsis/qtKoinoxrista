@@ -20,3 +20,5 @@ HEADERS  += dialog.h \
 FORMS    += dialog.ui
 
 OTHER_FILES +=
+
+RESOURCES +=
